@@ -1,0 +1,114 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+
+export default function DroCommandHub() {
+  const [docs, setDocs] = useState([
+    { name: "EVROS IV Ops Doc", url: "https://drive.google.com/file/d/EVROS_DOC_ID" },
+    { name: "Truck Wash Deck", url: "https://drive.google.com/file/d/TRUCK_DOC_ID" },
+    { name: "DRO LEGACY TRUST", url: "https://drive.google.com/file/d/TRUST_DOC_ID" },
+  ]);
+
+  const [newDocName, setNewDocName] = useState("");
+  const [newDocUrl, setNewDocUrl] = useState("");
+
+  const addDoc = () => {
+    if (newDocName && newDocUrl) {
+      setDocs([...docs, { name: newDocName, url: newDocUrl }]);
+      setNewDocName("");
+      setNewDocUrl("");
+    }
+  };
+
+  return (
+    <main className="min-h-screen bg-black text-white p-6">
+      <h1 className="text-3xl font-bold mb-6">DRO COMMAND HUB v2</h1>
+      <Tabs defaultValue="dashboard">
+        <TabsList className="grid grid-cols-4 w-full mb-4">
+          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+          <TabsTrigger value="sales">Sales Scripts</TabsTrigger>
+          <TabsTrigger value="companies">Companies</TabsTrigger>
+          <TabsTrigger value="crm">CRM + Tasks</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="dashboard">
+          <Card>
+            <CardContent className="space-y-4 pt-4">
+              <h2 className="text-xl font-semibold">Key Docs</h2>
+              <ul className="space-y-2">
+                {docs.map((doc, index) => (
+                  <li key={index}>
+                    <a
+                      href={doc.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline text-blue-400"
+                    >
+                      {doc.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <div className="flex flex-col gap-2">
+                <Input
+                  placeholder="Doc name"
+                  value={newDocName}
+                  onChange={(e) => setNewDocName(e.target.value)}
+                />
+                <Input
+                  placeholder="Google Drive URL"
+                  value={newDocUrl}
+                  onChange={(e) => setNewDocUrl(e.target.value)}
+                />
+                <Button onClick={addDoc}>Add Doc</Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="sales">
+          <Card>
+            <CardContent className="space-y-4 pt-4">
+              <h2 className="text-xl font-semibold">Sales Framework</h2>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Hook: Identify pain/goal in 1 sentence</li>
+                <li>Confirm: Clarify what they want to fix/achieve</li>
+                <li>Frame: Position offer as solution</li>
+                <li>Rebuttals: Objection → Acknowledge → Reframe → Drop-down → Ask again</li>
+                <li>Close: Confirm decision and deploy task/setup</li>
+              </ul>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="companies">
+          <Card>
+            <CardContent className="space-y-2 pt-4">
+              <h2 className="text-xl font-semibold">Entities</h2>
+              <ul className="list-disc pl-6">
+                <li>EVROS IV – Mobile IV therapy</li>
+                <li>Truck Wash – Commercial wash stations</li>
+                <li>DRO FAMILY HOLDINGS LLC</li>
+                <li>GTBW CAPITAL LLC</li>
+                <li>DRO LEGACY TRUST</li>
+              </ul>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="crm">
+          <Card>
+            <CardContent className="pt-4">
+              <p className="text-white/70">
+                CRM module will be deployed next. Contact forms, follow-up stages, and task assignments will be integrated here.
+              </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </main>
+  );
+}
+
